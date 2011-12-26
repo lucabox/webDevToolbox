@@ -38,7 +38,10 @@ describe('Observable', function() {
 
 	it('should be able to remove existing observers', function() {
 		var observableInstance = new ExampleObservable(),
-			callback = function() {},
+			counter = 0,
+			callback = function() {
+				++counter;
+			},
 			observerId1 = observableInstance.addObserver( 'event1', callback ),
 			observerId2 = observableInstance.addObserver( 'event1', callback ),
 			observerId3 = observableInstance.addObserver( 'event2', callback ),
@@ -46,17 +49,26 @@ describe('Observable', function() {
 			observerId5 = observableInstance.addObserver( 'event2', callback );
 
 		expect( observableInstance.removeObserver( 'event1', observerId1 ) ).toBe(true);
-		expect( observableInstance.removeObserver( 'event1', observerId1 ) ).toBe(false);
+		observableInstance.notifyObservers('event1');
+		expect(counter).toEqual(1);
 
 		expect( observableInstance.removeObserver( 'event2', observerId3 ) ).toBe(true);
 		expect( observableInstance.removeObserver( 'event2', observerId3 ) ).toBe(false);
+		observableInstance.notifyObservers('event2');
+		expect(counter).toEqual(3);
 
 		observableInstance.clearEventObservers('event1');
 		expect( observableInstance.removeObserver( 'event1', observerId2 ) ).toBe(false);
+		observableInstance.notifyObservers('event1');
+		expect(counter).toEqual(3);
 
 		observableInstance.clearAllObservers();
 		expect( observableInstance.removeObserver( 'event2', observerId4 ) ).toBe(false);
 		expect( observableInstance.removeObserver( 'event2', observerId5 ) ).toBe(false);
+
+		observableInstance.notifyObservers('event1');
+		observableInstance.notifyObservers('event2');
+		expect(counter).toEqual(3);
 	});
 
 	it('should be able to raise async events', function() {
@@ -76,7 +88,7 @@ describe('Observable', function() {
 
 		waitsFor( function() {
 			return eventsReceived;
-		}, "event1 Never Received", 10000);
+		}, "events Never Received", 10000);
 
 		runs ( function() {
 			expect(counter).toEqual(2);
