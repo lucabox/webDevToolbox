@@ -6,6 +6,7 @@ phantom.injectJs("./lib/jasmine/jasmine-console.js");
 //loading js code to be tested
 phantom.injectJs("./class/class.js");
 phantom.injectJs("./observable/observable.js");
+phantom.injectJs("./exitCounter/exitCounter.js");
 
 //read all the specs in the test folder
 var fs = require('fs');

@@ -1,0 +1,26 @@
+Started
+
+#0 exitCounter: should not accept invalid input
+[32mPASS[0m
+#1 exitCounter: should throw if released too many times
+[32mPASS[0m
+#2 exitCounter: should raise sync events
+[32mPASS[0m
+#3 exitCounter: should raise async events
+[32mPASS[0m
+#4 Observable: should not accept invalid input
+[32mPASS[0m
+#5 Observable: should not accept unknown events
+[32mPASS[0m
+#6 Observable: should always give a unique observer id
+[32mPASS[0m
+#7 Observable: should be able to remove existing observers
+[32mPASS[0m
+#8 Observable: should be able to raise async events
+[32mPASS[0m
+#9 Observable: should be able to raise sync events
+[32mPASS[0m
+
+Finished in 0.044 seconds
+
+[32m10 specs, 0 failures[0m
