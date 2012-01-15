@@ -19,41 +19,40 @@
 // SOFTWARE.
 
 /**
-*	A simple utility to call a function after a predifined amount of times soemthing has happened
-*	count: the amount of times we are intersted into
-*	onExit: the callback
-*	sync: whether the callback should be called synchronously or asynchronously,
-*			use exitCounter.sync or exitCounter.async as values
+*	A simple utility to call a function after a predifined amount of times soemthing has happened.
+*	Input args is an object:
+*	{
+*		count: the amount of times we are intersted into
+*		onExit: the callback to be called when the count has been reached
+*		sync: boolean representing whether the callback should be called synchronously or asynchronously (the default)
+*	}
 */
-var exitCounter = function ( count, onExit, sync ) {
-	if( !count || typeof count !== "number" ||
-			!onExit || typeof onExit !== "function" ||
-				sync && (sync !== exitCounter.sync && sync !== exitCounter.async) ) {
+var exitCounter = function ( args ) {
+	if( !args.count || typeof args.count !== "number" ||
+			!args.onExit || typeof args.onExit !== "function" ||
+				args.sync && typeof args.sync !== "boolean") {
 		throw new Error('ParametersError');
 	}
 
-	sync = sync || exitCounter.sync;
-
 	return {
 		/**
-		*	decrease of "release" the count passed in at creation.
-		*	it can be any number, even 0
+		*	decrease of release times the count passed in at construction town.
+		*	release can be any number, even 0
 		*/
-		exit: function( release ) {
+		decrement: function( release ) {
 			var howMany = release === undefined ? 1 : release;
 
-			if( typeof howMany !== "number") { throw new Error('ParametersError'); }
-
-			count -= howMany;
-
-			if( 0 === count) {
-				(sync === "sync" ? onExit : function() { setTimeout( onExit, 0 ); })();
+			if( typeof howMany !== "number") {
+				throw new Error('ParametersError');
 			}
-			if( count < 0 ) {
+
+			args.count -= howMany;
+
+			if( 0 === args.count ) {
+				(args.sync ? args.onExit : function() { setTimeout( args.onExit, 0 ); })();
+			} else if( args.count < 0 ) {
 				throw new Error('Released too many times');
 			}
 		}
 	};
 };
-exitCounter.sync = "sync";
-exitCounter.async = "async";
