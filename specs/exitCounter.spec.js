@@ -28,7 +28,7 @@ describe('exitCounter', function() {
 			counter2 = exitCounter({count:2, onExit: exitFn, sync: true});
 
 			counter1.decrement(1);
-			counter1.decrement();
+			counter1.decrementOne();
 			expect(increment).toEqual(1);
 		
 			counter2.decrement(0);
@@ -44,7 +44,7 @@ describe('exitCounter', function() {
 			syncCounter = exitCounter({count:2, onExit:exitFn, sync: true});
 
 			asyncCounter.decrement(1);
-			asyncCounter.decrement(1);
+			asyncCounter.decrementOne();
 			expect(increment).toEqual(0);
 		
 			syncCounter.decrement(0);

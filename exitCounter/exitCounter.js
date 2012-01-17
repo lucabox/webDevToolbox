@@ -53,6 +53,9 @@ var exitCounter = function ( args ) {
 			} else if( args.count < 0 ) {
 				throw new Error('Released too many times');
 			}
+		},
+		decrementOne: function() {
+			this.decrement(1);
 		}
 	};
 };
